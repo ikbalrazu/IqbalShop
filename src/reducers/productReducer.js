@@ -1,18 +1,46 @@
-import {ALL_PRODUCT_REQUEST} from '../../src/constants/productConstants';
-import { createReducer } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
 
-const initialState = {
-    productname:"oneplus 7t 8/256",
-    price: "3000tk"
-}
 
-export const productReducer = createReducer({initialState}, {
+// export const productReducer = createReducer({initialState}, {
     
-    PRODUCTNAME: (state, action) => {
-        state.productname = action.payload
-    },
+//     PRODUCTNAME: (state, action) => {
+//         state.productname = action.payload
+//     },
 
-    PRODUCTPRICE: (state)=>{
-        state.price = "5000tk"
+//     PRODUCTPRICE: (state)=>{
+//         state.price = "5000tk"
+//     }
+// })
+
+export const getAllProducts = createAsyncThunk('getAllProducts',async ()=>{
+    const response = await axios.get("http://localhost:4000/api/v1/products");
+    console.log(response.data.product);
+    return response.data.product;
+})
+
+
+export const productReducer = createSlice({
+    name:"products",
+    initialState:{
+        products: [],
+        pending:null,
+        error: false,
+    },
+    reducers:{
+
+    },
+    extraReducers:{
+        [getAllProducts.pending]:(state)=>{
+            state.pending = true;
+        },
+        [getAllProducts.fulfilled]: (state,action)=>{
+            state.products = action.payload;
+        },
+        [getAllProducts.rejected]: (state)=>{
+            state.error = true;
+        }
     }
 })
+
+export default productReducer.reducer;
