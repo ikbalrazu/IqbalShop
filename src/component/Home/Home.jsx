@@ -5,6 +5,7 @@ import Product from './Product';
 import MetaData from '../layout/MetaData';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllProducts } from '../../reducers/productReducer';
+import Loader from '../layout/Loader/Loader';
 
 const product = {
   name: "Blue Tshirt",
@@ -15,13 +16,18 @@ const product = {
 
 const Home = () => {
   const dispatch = useDispatch();
-  const {products} = useSelector((state)=>state.products);
+  const {products, pending, error, errordetails} = useSelector((state)=>state.products);
   useEffect(()=>{
+    if(error){
+      console.log(error.message);
+    }
     dispatch(getAllProducts());
-  },[]);
+  },[dispatch, error]);
   return (
     <Fragment>
-      <MetaData title="ECOMMERCE"/>
+      
+        
+          <MetaData title="ECOMMERCE"/>
         <div className='banner'>
             <p>Welcome to Ecommerce</p>
             <h1>FIND AMAZING PRODUCTS BELOW</h1>
@@ -33,6 +39,11 @@ const Home = () => {
             </a>
         </div>
 
+        {pending ? (
+        <Loader/>
+        ) : (
+          <Fragment>
+        <div className="product">
         <h2 className='homeHeading'>Featured Products</h2>
         <div className='container' id='container'>
         {products.map((product,index)=>{
@@ -41,10 +52,18 @@ const Home = () => {
           </div>
         })}
         
-        {/* <Product product={product}/>
-        <Product product={product}/>
-        <Product product={product}/> */}
         </div>
+        </div>
+        </Fragment>
+      )} 
+
+      {error === true && (
+        <div>
+          {errordetails.message}
+        </div>
+      )}
+        
+      
     </Fragment>
   )
 }

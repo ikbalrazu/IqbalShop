@@ -19,13 +19,19 @@ export const getAllProducts = createAsyncThunk('getAllProducts',async ()=>{
     return response.data.product;
 })
 
+export const getProductDetails = createAsyncThunk("getProductDetails",async (id) => {
+    const response = await axios.get(`http://localhost:4000/api/v1/product/${id}`);
+    console.log(response);
+})
+
 
 export const productReducer = createSlice({
     name:"products",
     initialState:{
         products: [],
-        pending:null,
+        pending:false,
         error: false,
+        errordetails:"",
     },
     reducers:{
 
@@ -36,9 +42,12 @@ export const productReducer = createSlice({
         },
         [getAllProducts.fulfilled]: (state,action)=>{
             state.products = action.payload;
+            state.pending = false;
         },
-        [getAllProducts.rejected]: (state)=>{
+        [getAllProducts.rejected]: (state, action)=>{
             state.error = true;
+            state.pending = false;
+            state.errordetails = action.error;
         }
     }
 })
