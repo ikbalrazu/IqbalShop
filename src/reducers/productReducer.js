@@ -15,13 +15,14 @@ import axios from 'axios';
 
 export const getAllProducts = createAsyncThunk('getAllProducts',async ()=>{
     const response = await axios.get("http://localhost:4000/api/v1/products");
-    console.log(response.data.product);
+    //console.log(response.data.product);
     return response.data.product;
 })
 
 export const getProductDetails = createAsyncThunk("getProductDetails",async (id) => {
     const response = await axios.get(`http://localhost:4000/api/v1/product/${id}`);
-    console.log(response);
+    //console.log(response);
+    return response.data.product;
 })
 
 
@@ -29,6 +30,7 @@ export const productReducer = createSlice({
     name:"products",
     initialState:{
         products: [],
+        productDetails: "",
         pending:false,
         error: false,
         errordetails:"",
@@ -48,6 +50,19 @@ export const productReducer = createSlice({
             state.error = true;
             state.pending = false;
             state.errordetails = action.error;
+        },
+
+        [getProductDetails.pending]:(state)=>{
+            state.pending = true;
+        },
+        [getProductDetails.fulfilled]: (state,action)=>{
+            state.productDetails = action.payload;
+            state.pending = false;
+        },
+        [getProductDetails.rejected]:(state,action)=>{
+            state.error = true;
+            state.pending = false;
+            
         }
     }
 })
