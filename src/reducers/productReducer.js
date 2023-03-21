@@ -13,8 +13,8 @@ import axios from 'axios';
 //     }
 // })
 
-export const getAllProducts = createAsyncThunk('getAllProducts',async ()=>{
-    const response = await axios.get("http://localhost:4000/api/v1/products");
+export const getAllProducts = createAsyncThunk('getAllProducts',async (keyword="")=>{
+    const response = await axios.get(`http://localhost:4000/api/v1/products?keyword=${keyword}`);
     //console.log(response.data.product);
     return response.data.product;
 })

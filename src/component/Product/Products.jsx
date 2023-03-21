@@ -3,16 +3,19 @@ import {useSelector, useDispatch} from 'react-redux';
 import { getAllProducts } from '../../reducers/productReducer';
 import Loader from '../layout/Loader/Loader';
 import ProductCard from '../Home/ProductCard';
-import './Products.css'
+import './Products.css';
+import {useParams} from 'react-router-dom';
 
 const Products = () => {
     const dispatch = useDispatch();
-
+    const params = useParams();
     const {pending,products} = useSelector((state)=>state.products)
 
+    const keyword = params.keyword;
+
     useEffect(()=>{
-        dispatch(getAllProducts());
-    },[dispatch]);
+        dispatch(getAllProducts(keyword));
+    },[dispatch, keyword]);
 
   return (
     <Fragment>
