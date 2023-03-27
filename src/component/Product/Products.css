@@ -20,6 +20,7 @@
     display: flex;
     justify-content: center;
     margin: 6vmax;
+    /* border: 1px solid green; */
   }
   
   .pagination {
@@ -43,22 +44,22 @@
   .page-item:last-child {
     border-radius: 0 5px 5px 0;
   }
-  .page-link {
+  /* .page-link {
     text-decoration: none;
     font: 300 0.7vmax "Roboto";
     color: rgb(80, 80, 80);
     transition: all 0.3s;
-  }
+  } */
   
   .page-item:hover {
     background-color: rgb(230, 230, 230);
   }
   
-  .page-item:hover .page-link {
+  /* .page-item:hover .page-link {
     color: rgb(0, 0, 0);
-  }
+  } */
   
-  .pageItemActive {
+  /* .pageItemActive {
     background-color: tomato;
   }
   
@@ -106,4 +107,4 @@
     .category-link {
       font: 400 1.8vmax "Roboto";
     }
-  }
+  } */
