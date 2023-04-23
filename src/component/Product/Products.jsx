@@ -6,6 +6,7 @@ import ProductCard from '../Home/ProductCard';
 import './Products.css';
 import { useParams } from 'react-router-dom';
 import ReactPaginate from "react-paginate";
+import { Slider, Typography } from '@mui/material';
 
 
 const PER_PAGE = 3;
@@ -18,11 +19,16 @@ const Products = () => {
     const keyword = params;
 
     const [currentPage, setCurrentPage] = useState(1);
+    const [price, setPrice] = useState([0,25000]);
     const [data, setData] = useState([]);
 
+    const priceHandler = (event, newPrice) => {
+        setPrice(newPrice);
+    }
+
     useEffect(() => {
-        dispatch(getAllProducts(currentPage));
-    }, [dispatch, keyword,currentPage]);
+        dispatch(getAllProducts(currentPage,price));
+    }, [dispatch, keyword,currentPage,price]);
 
     // function handlePageClick({ selected: selectedPage }) {
     //     console.log(selectedPage);
@@ -47,6 +53,18 @@ const Products = () => {
                         {products && products.map((product) => (
                             <ProductCard key={product._id} product={product} />
                         ))}
+                    </div>
+
+                    <div className='filterBox'>
+                     <Typography>Price</Typography>
+                     <Slider
+                      value={price}
+                      onChange={priceHandler}
+                      valueLabelDisplay='auto'
+                      aria-labelledby='range-slider'
+                      min={0}
+                      max={2000}
+                     />
                     </div>
                     
                     {resultPerPage < productsCount && (

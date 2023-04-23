@@ -13,10 +13,10 @@ import axios from 'axios';
 //     }
 // })
 
-export const getAllProducts = createAsyncThunk('getAllProducts',async (currentPage)=>{
+export const getAllProducts = createAsyncThunk('getAllProducts',async (currentPage,price = [0, 3000])=>{
     const keyword = "";
     console.log("current page: ",currentPage);
-    const response = await axios.get(`http://localhost:4000/api/v1/products?keyword=${keyword}&page=${currentPage}`);
+    const response = await axios.get(`http://localhost:4000/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}`);
     console.log(response.data);
     return response.data;
 })
